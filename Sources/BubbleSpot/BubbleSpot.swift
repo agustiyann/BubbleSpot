@@ -18,7 +18,7 @@ public class TooltipView: UIView {
     private let arrowPosition: ArrowPosition
     private weak var targetView: UIView?
     
-    init(targetView: UIView, text: String, arrowPosition: ArrowPosition) {
+    public init(targetView: UIView, text: String, arrowPosition: ArrowPosition) {
         self.text = text
         self.arrowPosition = arrowPosition
         self.targetView = targetView
@@ -26,7 +26,7 @@ public class TooltipView: UIView {
         super.init(frame: .zero)
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
