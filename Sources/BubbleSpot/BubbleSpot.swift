@@ -14,9 +14,24 @@ public enum ArrowPosition {
 
 public class TooltipView: UIView {
     
+    private let label: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }()
+    
     private let text: String
     private let arrowPosition: ArrowPosition
     private weak var targetView: UIView?
+    
+    public var textColor: UIColor = .white {
+        didSet {
+            label.textColor = textColor
+        }
+    }
     
     public init(targetView: UIView, text: String, arrowPosition: ArrowPosition) {
         self.text = text
@@ -30,7 +45,14 @@ public class TooltipView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func show() {
+    @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
+        removeFromSuperview() // Dismiss tooltip when tapped
+    }
+}
+
+public extension TooltipView {
+    
+    func show() {
         guard let targetView = targetView, let superview = targetView.superview else {
             return
         }
@@ -40,12 +62,7 @@ public class TooltipView: UIView {
         layer.cornerRadius = 5
         
         // Add label to display tooltip text
-        let label = UILabel()
-        label.textColor = .red
-        label.font = UIFont.systemFont(ofSize: 12)
         label.text = text
-        label.numberOfLines = 0
-        label.textAlignment = .center
         addSubview(label)
         
         // Adjust tooltip size based on text content
@@ -114,7 +131,4 @@ public class TooltipView: UIView {
         addGestureRecognizer(tapGesture)
     }
     
-    @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
-        removeFromSuperview() // Dismiss tooltip when tapped
-    }
 }
