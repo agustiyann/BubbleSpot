@@ -12,9 +12,18 @@ public enum ArrowPosition {
     case top, bottom, left, right
 }
 
-public class TooltipView: UIView {
+public class BubbleSpot: UIView {
     
-    private let label: UILabel = {
+    // MARK: - Private proerties
+    
+    private let text: String
+    private let arrowPosition: ArrowPosition
+    private weak var targetView: UIView?
+    
+    // MARK: - Public properties
+    
+    // BubbleSpot label
+    public var label: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 12)
@@ -23,15 +32,15 @@ public class TooltipView: UIView {
         return label
     }()
     
-    private let text: String
-    private let arrowPosition: ArrowPosition
-    private weak var targetView: UIView?
-    
     public var textColor: UIColor = .white {
         didSet {
             label.textColor = textColor
         }
     }
+    
+    public var arrowColor: CGColor = UIColor.black.cgColor
+    
+    public var didBubbleTapped: (() -> Void)? = nil
     
     public init(targetView: UIView, text: String, arrowPosition: ArrowPosition) {
         self.text = text
@@ -39,27 +48,24 @@ public class TooltipView: UIView {
         self.targetView = targetView
         
         super.init(frame: .zero)
+        
+        // Default tooltip appearance
+        backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        layer.cornerRadius = 5
     }
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
-        removeFromSuperview() // Dismiss tooltip when tapped
-    }
 }
 
-public extension TooltipView {
+public extension BubbleSpot {
     
     func show() {
         guard let targetView = targetView, let superview = targetView.superview else {
             return
         }
-        
-        // Customize tooltip appearance
-        backgroundColor = UIColor.black.withAlphaComponent(0.7)
-        layer.cornerRadius = 5
         
         // Add label to display tooltip text
         label.text = text
@@ -120,7 +126,7 @@ public extension TooltipView {
         }
         
         arrowLayer.path = arrowPath.cgPath
-        arrowLayer.fillColor = UIColor.black.cgColor
+        arrowLayer.fillColor = arrowColor
         layer.addSublayer(arrowLayer)
         
         // Add the tooltip view to the superview
@@ -129,6 +135,14 @@ public extension TooltipView {
         // Make tooltip view interactive
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         addGestureRecognizer(tapGesture)
+    }
+    
+    func dismiss() {
+        removeFromSuperview()
+    }
+    
+    @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
+        self.didBubbleTapped?()
     }
     
 }
