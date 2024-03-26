@@ -30,7 +30,7 @@ public class TooltipView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func show() {
+    public func show() {
         guard let targetView = targetView, let superview = targetView.superview else {
             return
         }
