@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-enum ArrowPosition {
+public enum ArrowPosition {
     case top, bottom, left, right
 }
 
