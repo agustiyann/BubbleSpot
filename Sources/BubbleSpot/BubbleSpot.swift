@@ -14,7 +14,7 @@ public enum ArrowPosition {
 
 public class BubbleSpot: UIView {
     
-    // MARK: - Private proerties
+    // MARK: - Private properties
     
     private let text: String
     private let arrowPosition: ArrowPosition
@@ -58,11 +58,9 @@ public class BubbleSpot: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-}
-
-public extension BubbleSpot {
+    // MARK: - Public methods
     
-    func show() {
+    public func show() {
         guard let targetView = targetView, let superview = targetView.superview else {
             return
         }
@@ -70,33 +68,46 @@ public extension BubbleSpot {
         // Add label to display tooltip text
         label.text = text
         addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
         
-        // Adjust tooltip size based on text content
-        let textSize = label.sizeThatFits(CGSize(width: superview.bounds.width - 20, height: CGFloat.greatestFiniteMagnitude))
-        let tooltipWidth = min(textSize.width + 20, superview.bounds.width) // Ensure tooltip width accommodates the text
-        let tooltipHeight = textSize.height + 10
-        frame = CGRect(x: 0, y: 0, width: tooltipWidth, height: tooltipHeight)
+        // Add constraints for label
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+        ])
         
-        // Position label within the tooltip
-        label.frame = bounds.insetBy(dx: 10, dy: 5)
+        // Add the tooltip view to the superview
+        superview.addSubview(self)
         
-        // Position tooltip relative to the target view
-        var tooltipOrigin: CGPoint = .zero
+        // Make tooltip view interactive
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        addGestureRecognizer(tapGesture)
         
-        switch arrowPosition {
-        case .top:
-            tooltipOrigin = CGPoint(x: targetView.frame.midX - frame.width / 2, y: targetView.frame.minY - frame.height - 10)
-        case .bottom:
-            tooltipOrigin = CGPoint(x: targetView.frame.midX - frame.width / 2, y: targetView.frame.maxY + 10)
-        case .left:
-            tooltipOrigin = CGPoint(x: targetView.frame.minX - frame.width - 10, y: targetView.frame.midY - frame.height / 2)
-        case .right:
-            tooltipOrigin = CGPoint(x: targetView.frame.maxX + 10, y: targetView.frame.midY - frame.height / 2)
-        }
-        
-        frame.origin = tooltipOrigin
+        // Setup constraints for self
+        translatesAutoresizingMaskIntoConstraints = false
+        setupConstraints()
+        superview.layoutIfNeeded()
         
         // Add arrow pointer
+        addArrowLayer()
+    }
+    
+    public func dismiss() {
+        removeFromSuperview()
+    }
+    
+    // MARK: - Private methods
+    
+    @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
+        self.didBubbleTapped?()
+    }
+    
+    private func addArrowLayer() {
+        // Remove existing arrow layers
+        layer.sublayers?.filter { $0 is CAShapeLayer }.forEach { $0.removeFromSuperlayer() }
+        
         let arrowLayer = CAShapeLayer()
         let arrowPath = UIBezierPath()
         let arrowWidth: CGFloat = 10
@@ -128,21 +139,40 @@ public extension BubbleSpot {
         arrowLayer.path = arrowPath.cgPath
         arrowLayer.fillColor = arrowColor
         layer.addSublayer(arrowLayer)
+    }
+    
+    private func setupConstraints() {
+        guard let targetView = targetView, let superview = targetView.superview else {
+            return
+        }
         
-        // Add the tooltip view to the superview
-        superview.addSubview(self)
-        
-        // Make tooltip view interactive
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        addGestureRecognizer(tapGesture)
+        switch arrowPosition {
+        case .top:
+            NSLayoutConstraint.activate([
+                bottomAnchor.constraint(equalTo: targetView.topAnchor, constant: -10),
+                centerXAnchor.constraint(equalTo: targetView.centerXAnchor),
+                leadingAnchor.constraint(greaterThanOrEqualTo: superview.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+                trailingAnchor.constraint(lessThanOrEqualTo: superview.safeAreaLayoutGuide.trailingAnchor, constant: -8)
+            ])
+        case .bottom:
+            NSLayoutConstraint.activate([
+                topAnchor.constraint(equalTo: targetView.bottomAnchor, constant: 10),
+                centerXAnchor.constraint(equalTo: targetView.centerXAnchor),
+                leadingAnchor.constraint(greaterThanOrEqualTo: superview.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+                trailingAnchor.constraint(lessThanOrEqualTo: superview.safeAreaLayoutGuide.trailingAnchor, constant: -8)
+            ])
+        case .left:
+            NSLayoutConstraint.activate([
+                trailingAnchor.constraint(equalTo: targetView.leadingAnchor, constant: -10),
+                centerYAnchor.constraint(equalTo: targetView.centerYAnchor),
+                leadingAnchor.constraint(greaterThanOrEqualTo: superview.safeAreaLayoutGuide.leadingAnchor, constant: 8)
+            ])
+        case .right:
+            NSLayoutConstraint.activate([
+                leadingAnchor.constraint(equalTo: targetView.trailingAnchor, constant: 10),
+                centerYAnchor.constraint(equalTo: targetView.centerYAnchor),
+                trailingAnchor.constraint(lessThanOrEqualTo: superview.safeAreaLayoutGuide.trailingAnchor, constant: -8)
+            ])
+        }
     }
-    
-    func dismiss() {
-        removeFromSuperview()
-    }
-    
-    @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
-        self.didBubbleTapped?()
-    }
-    
 }

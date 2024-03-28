@@ -13,7 +13,7 @@
 		CF2165DC2BB2D6B200BC7C2F /* Base in Resources */ = {isa = PBXBuildFile; fileRef = CF2165DB2BB2D6B200BC7C2F /* Base */; };
 		CF2165DE2BB2D6B400BC7C2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF2165DD2BB2D6B400BC7C2F /* Assets.xcassets */; };
 		CF2165E12BB2D6B400BC7C2F /* Base in Resources */ = {isa = PBXBuildFile; fileRef = CF2165E02BB2D6B400BC7C2F /* Base */; };
-		CFCA802B2BB31C1700F9D43D /* BubbleSpot in Frameworks */ = {isa = PBXBuildFile; productRef = CFCA802A2BB31C1700F9D43D /* BubbleSpot */; };
+		CFCA802D2BB3266E00F9D43D /* BubbleSpot in Frameworks */ = {isa = PBXBuildFile; productRef = CFCA802C2BB3266E00F9D43D /* BubbleSpot */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CFCA802B2BB31C1700F9D43D /* BubbleSpot in Frameworks */,
+				CFCA802D2BB3266E00F9D43D /* BubbleSpot in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,7 +96,7 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				CFCA802A2BB31C1700F9D43D /* BubbleSpot */,
+				CFCA802C2BB3266E00F9D43D /* BubbleSpot */,
 			);
 			productName = Example;
 			productReference = CF2165D12BB2D6B200BC7C2F /* Example.app */;
@@ -388,7 +388,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		CFCA802A2BB31C1700F9D43D /* BubbleSpot */ = {
+		CFCA802C2BB3266E00F9D43D /* BubbleSpot */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BubbleSpot;
 		};

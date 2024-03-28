@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var bottomButton: UIButton!
     
-    private lazy var bellowBubbleSpot = BubbleSpot(targetView: self.topButton, text: "This is a bubble spot that is below the target view", arrowPosition: .bottom)
+    private lazy var bellowBubbleSpot = BubbleSpot(targetView: self.topButton, text: "This is the bubble spot to the right of the target view", arrowPosition: .bottom)
     private lazy var rightBubbleSpot = BubbleSpot(targetView: self.leftButton, text: "This is the bubble spot to the right of the target view", arrowPosition: .right)
     private lazy var leftBubbleSpot = BubbleSpot(targetView: self.rightButton, text: "This is the bubble spot to the left of the target view", arrowPosition: .left)
     private lazy var aboveBubbleSpot = BubbleSpot(targetView: self.bottomButton, text: "This is a bubble spot that is above the target view", arrowPosition: .top)
