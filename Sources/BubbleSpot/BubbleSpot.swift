@@ -5,11 +5,50 @@
 //  Created by agustiyan on 26/03/24.
 //
 
-import Foundation
 import UIKit
 
 public enum ArrowPosition {
     case top, bottom, left, right
+}
+
+public enum ArrowDirection {
+    case top, bottom, left, right
+}
+
+class ArrowView: UIView {
+    
+    var direction: ArrowDirection = .top
+    var fillColor: UIColor = .black
+    
+    override func draw(_ rect: CGRect) {
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+        
+        context.beginPath()
+        
+        switch direction {
+        case .top:
+            context.move(to: CGPoint(x: rect.width / 2, y: 0))
+            context.addLine(to: CGPoint(x: rect.width, y: rect.height))
+            context.addLine(to: CGPoint(x: 0, y: rect.height))
+        case .bottom:
+            context.move(to: CGPoint(x: 0, y: 0))
+            context.addLine(to: CGPoint(x: rect.width / 2, y: rect.height))
+            context.addLine(to: CGPoint(x: rect.width, y: 0))
+        case .left:
+            context.move(to: CGPoint(x: rect.width, y: 0))
+            context.addLine(to: CGPoint(x: 0, y: rect.height / 2))
+            context.addLine(to: CGPoint(x: rect.width, y: rect.height))
+        case .right:
+            context.move(to: CGPoint(x: 0, y: 0))
+            context.addLine(to: CGPoint(x: rect.width, y: rect.height / 2))
+            context.addLine(to: CGPoint(x: 0, y: rect.height))
+        }
+        
+        context.closePath()
+        
+        fillColor.setFill() // Set triangle color
+        context.drawPath(using: .fillStroke) // Draw triangle
+    }
 }
 
 public class BubbleSpot: UIView {
@@ -29,7 +68,16 @@ public class BubbleSpot: UIView {
         label.font = UIFont.systemFont(ofSize: 12)
         label.numberOfLines = 0
         label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    // ArrowView
+    private let arrowView: ArrowView = {
+        let view = ArrowView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     public var textColor: UIColor = .white {
@@ -68,7 +116,7 @@ public class BubbleSpot: UIView {
         // Add label to display tooltip text
         label.text = text
         addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(arrowView)
         
         // Add constraints for label
         NSLayoutConstraint.activate([
@@ -89,9 +137,6 @@ public class BubbleSpot: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         setupConstraints()
         superview.layoutIfNeeded()
-        
-        // Add arrow pointer
-        addArrowLayer()
     }
     
     public func dismiss() {
@@ -104,43 +149,6 @@ public class BubbleSpot: UIView {
         self.didBubbleTapped?()
     }
     
-    private func addArrowLayer() {
-        // Remove existing arrow layers
-        layer.sublayers?.filter { $0 is CAShapeLayer }.forEach { $0.removeFromSuperlayer() }
-        
-        let arrowLayer = CAShapeLayer()
-        let arrowPath = UIBezierPath()
-        let arrowWidth: CGFloat = 10
-        let arrowHeight: CGFloat = 6
-        
-        switch arrowPosition {
-        case .top:
-            arrowPath.move(to: CGPoint(x: bounds.midX - arrowWidth / 2, y: bounds.maxY))
-            arrowPath.addLine(to: CGPoint(x: bounds.midX + arrowWidth / 2, y: bounds.maxY))
-            arrowPath.addLine(to: CGPoint(x: bounds.midX, y: bounds.maxY + arrowHeight))
-            arrowPath.close()
-        case .bottom:
-            arrowPath.move(to: CGPoint(x: bounds.midX - arrowWidth / 2, y: bounds.minY))
-            arrowPath.addLine(to: CGPoint(x: bounds.midX + arrowWidth / 2, y: bounds.minY))
-            arrowPath.addLine(to: CGPoint(x: bounds.midX, y: bounds.minY - arrowHeight))
-            arrowPath.close()
-        case .left:
-            arrowPath.move(to: CGPoint(x: bounds.maxX, y: bounds.midY - arrowWidth / 2))
-            arrowPath.addLine(to: CGPoint(x: bounds.maxX, y: bounds.midY + arrowWidth / 2))
-            arrowPath.addLine(to: CGPoint(x: bounds.maxX + arrowHeight, y: bounds.midY))
-            arrowPath.close()
-        case .right:
-            arrowPath.move(to: CGPoint(x: bounds.minX, y: bounds.midY - arrowWidth / 2))
-            arrowPath.addLine(to: CGPoint(x: bounds.minX, y: bounds.midY + arrowWidth / 2))
-            arrowPath.addLine(to: CGPoint(x: bounds.minX - arrowHeight, y: bounds.midY))
-            arrowPath.close()
-        }
-        
-        arrowLayer.path = arrowPath.cgPath
-        arrowLayer.fillColor = arrowColor
-        layer.addSublayer(arrowLayer)
-    }
-    
     private func setupConstraints() {
         guard let targetView = targetView, let superview = targetView.superview else {
             return
@@ -148,30 +156,58 @@ public class BubbleSpot: UIView {
         
         switch arrowPosition {
         case .top:
+            arrowView.direction = .bottom
+            
             NSLayoutConstraint.activate([
                 bottomAnchor.constraint(equalTo: targetView.topAnchor, constant: -10),
                 centerXAnchor.constraint(equalTo: targetView.centerXAnchor),
                 leadingAnchor.constraint(greaterThanOrEqualTo: superview.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-                trailingAnchor.constraint(lessThanOrEqualTo: superview.safeAreaLayoutGuide.trailingAnchor, constant: -8)
+                trailingAnchor.constraint(lessThanOrEqualTo: superview.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+                
+                arrowView.heightAnchor.constraint(equalToConstant: 6),
+                arrowView.widthAnchor.constraint(equalToConstant: 10),
+                arrowView.topAnchor.constraint(equalTo: bottomAnchor),
+                arrowView.centerXAnchor.constraint(equalTo: centerXAnchor)
             ])
         case .bottom:
+            arrowView.direction = .top
+            
             NSLayoutConstraint.activate([
                 topAnchor.constraint(equalTo: targetView.bottomAnchor, constant: 10),
                 centerXAnchor.constraint(equalTo: targetView.centerXAnchor),
                 leadingAnchor.constraint(greaterThanOrEqualTo: superview.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-                trailingAnchor.constraint(lessThanOrEqualTo: superview.safeAreaLayoutGuide.trailingAnchor, constant: -8)
+                trailingAnchor.constraint(lessThanOrEqualTo: superview.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+                
+                arrowView.heightAnchor.constraint(equalToConstant: 6),
+                arrowView.widthAnchor.constraint(equalToConstant: 10),
+                arrowView.bottomAnchor.constraint(equalTo: topAnchor),
+                arrowView.centerXAnchor.constraint(equalTo: centerXAnchor)
             ])
         case .left:
+            arrowView.direction = .right
+            
             NSLayoutConstraint.activate([
                 trailingAnchor.constraint(equalTo: targetView.leadingAnchor, constant: -10),
                 centerYAnchor.constraint(equalTo: targetView.centerYAnchor),
-                leadingAnchor.constraint(greaterThanOrEqualTo: superview.safeAreaLayoutGuide.leadingAnchor, constant: 8)
+                leadingAnchor.constraint(greaterThanOrEqualTo: superview.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+                
+                arrowView.heightAnchor.constraint(equalToConstant: 10),
+                arrowView.widthAnchor.constraint(equalToConstant: 6),
+                arrowView.leadingAnchor.constraint(equalTo: trailingAnchor),
+                arrowView.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
         case .right:
+            arrowView.direction = .left
+            
             NSLayoutConstraint.activate([
                 leadingAnchor.constraint(equalTo: targetView.trailingAnchor, constant: 10),
                 centerYAnchor.constraint(equalTo: targetView.centerYAnchor),
-                trailingAnchor.constraint(lessThanOrEqualTo: superview.safeAreaLayoutGuide.trailingAnchor, constant: -8)
+                trailingAnchor.constraint(lessThanOrEqualTo: superview.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+                
+                arrowView.heightAnchor.constraint(equalToConstant: 10),
+                arrowView.widthAnchor.constraint(equalToConstant: 6),
+                arrowView.trailingAnchor.constraint(equalTo: leadingAnchor),
+                arrowView.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
         }
     }
