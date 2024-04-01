@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var bottomRightButton: UIButton!
     
     private lazy var bellowBubbleSpot = BubbleSpot(targetView: self.topButton,
-                                                   text: "This is the bubble spot to the right of the target view",
+                                                   text: "This is a bubble spot that is bellow the target view",
                                                    arrowPosition: .bottom)
     
     private lazy var rightBubbleSpot = BubbleSpot(targetView: self.leftButton,
@@ -36,19 +36,19 @@ class ViewController: UIViewController {
                                                   arrowPosition: .top)
     
     private lazy var bellowLeftBubbleSpot = BubbleSpot(targetView: self.topLeftButton,
-                                                       text: "This is the bubble spot to the right of the target view",
+                                                       text: "This is a bubble spot that is bellow [left] the target view",
                                                        arrowPosition: .bottomLeft)
     
     private lazy var bellowRightBubbleSpot = BubbleSpot(targetView: self.topRightButton,
-                                                        text: "This is the bubble spot to the right of the target view",
+                                                        text: "This is a bubble spot that is bellow [right] the target view",
                                                         arrowPosition: .bottomRight)
     
     private lazy var aboveLeftBubbleSpot = BubbleSpot(targetView: self.bottomLeftButton,
-                                                  text: "This is a bubble spot that is above the target view",
+                                                  text: "This is a bubble spot that is above [left] the target view",
                                                   arrowPosition: .topLeft)
     
     private lazy var aboveRightBubbleSpot = BubbleSpot(targetView: self.bottomRightButton,
-                                                  text: "This is a bubble spot that is above the target view",
+                                                  text: "This is a bubble spot that is above [right] the target view",
                                                   arrowPosition: .topRight)
     
     override func viewDidLoad() {
