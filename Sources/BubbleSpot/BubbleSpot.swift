@@ -8,7 +8,14 @@
 import UIKit
 
 public enum ArrowPosition {
-    case top, bottom, left, right
+    case top
+    case bottom
+    case left
+    case right
+    case topLeft
+    case topRight
+    case bottomLeft
+    case bottomRight
 }
 
 public enum ArrowDirection {
@@ -208,6 +215,58 @@ public class BubbleSpot: UIView {
                 arrowView.widthAnchor.constraint(equalToConstant: 6),
                 arrowView.trailingAnchor.constraint(equalTo: leadingAnchor),
                 arrowView.centerYAnchor.constraint(equalTo: centerYAnchor)
+            ])
+        case .topLeft:
+            arrowView.direction = .bottom
+            
+            NSLayoutConstraint.activate([
+                bottomAnchor.constraint(equalTo: targetView.topAnchor, constant: -10),
+                leadingAnchor.constraint(equalTo: targetView.leadingAnchor),
+                trailingAnchor.constraint(lessThanOrEqualTo: superview.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+                
+                arrowView.heightAnchor.constraint(equalToConstant: 6),
+                arrowView.widthAnchor.constraint(equalToConstant: 10),
+                arrowView.topAnchor.constraint(equalTo: bottomAnchor),
+                arrowView.centerXAnchor.constraint(equalTo: targetView.centerXAnchor)
+            ])
+        case .topRight:
+            arrowView.direction = .bottom
+            
+            NSLayoutConstraint.activate([
+                bottomAnchor.constraint(equalTo: targetView.topAnchor, constant: -10),
+                leadingAnchor.constraint(greaterThanOrEqualTo: superview.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+                trailingAnchor.constraint(equalTo: targetView.trailingAnchor),
+                
+                arrowView.heightAnchor.constraint(equalToConstant: 6),
+                arrowView.widthAnchor.constraint(equalToConstant: 10),
+                arrowView.topAnchor.constraint(equalTo: bottomAnchor),
+                arrowView.centerXAnchor.constraint(equalTo: targetView.centerXAnchor)
+            ])
+        case .bottomLeft:
+            arrowView.direction = .top
+            
+            NSLayoutConstraint.activate([
+                topAnchor.constraint(equalTo: targetView.bottomAnchor, constant: 10),
+                leadingAnchor.constraint(equalTo: targetView.leadingAnchor),
+                trailingAnchor.constraint(lessThanOrEqualTo: superview.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+                
+                arrowView.heightAnchor.constraint(equalToConstant: 6),
+                arrowView.widthAnchor.constraint(equalToConstant: 10),
+                arrowView.bottomAnchor.constraint(equalTo: topAnchor),
+                arrowView.centerXAnchor.constraint(equalTo: targetView.centerXAnchor)
+            ])
+        case .bottomRight:
+            arrowView.direction = .top
+            
+            NSLayoutConstraint.activate([
+                topAnchor.constraint(equalTo: targetView.bottomAnchor, constant: 10),
+                leadingAnchor.constraint(greaterThanOrEqualTo: superview.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+                trailingAnchor.constraint(equalTo: targetView.trailingAnchor),
+                
+                arrowView.heightAnchor.constraint(equalToConstant: 6),
+                arrowView.widthAnchor.constraint(equalToConstant: 10),
+                arrowView.bottomAnchor.constraint(equalTo: topAnchor),
+                arrowView.centerXAnchor.constraint(equalTo: targetView.centerXAnchor)
             ])
         }
     }
