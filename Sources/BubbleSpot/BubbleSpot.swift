@@ -18,57 +18,16 @@ public enum ArrowPosition {
     case bottomRight
 }
 
-public enum ArrowDirection {
-    case top, bottom, left, right
-}
-
-class ArrowView: UIView {
+public class BubbleSpot: UIView, BubbleSpotProtocol {
     
-    var direction: ArrowDirection = .top
-    var fillColor: UIColor = .black
+    internal var text: String
+    internal var arrowPosition: ArrowPosition
+    internal weak var targetView: UIView?
     
-    override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext() else { return }
-        
-        context.beginPath()
-        
-        switch direction {
-        case .top:
-            context.move(to: CGPoint(x: rect.width / 2, y: 0))
-            context.addLine(to: CGPoint(x: rect.width, y: rect.height))
-            context.addLine(to: CGPoint(x: 0, y: rect.height))
-        case .bottom:
-            context.move(to: CGPoint(x: 0, y: 0))
-            context.addLine(to: CGPoint(x: rect.width / 2, y: rect.height))
-            context.addLine(to: CGPoint(x: rect.width, y: 0))
-        case .left:
-            context.move(to: CGPoint(x: rect.width, y: 0))
-            context.addLine(to: CGPoint(x: 0, y: rect.height / 2))
-            context.addLine(to: CGPoint(x: rect.width, y: rect.height))
-        case .right:
-            context.move(to: CGPoint(x: 0, y: 0))
-            context.addLine(to: CGPoint(x: rect.width, y: rect.height / 2))
-            context.addLine(to: CGPoint(x: 0, y: rect.height))
-        }
-        
-        context.closePath()
-        
-        fillColor.setFill() // Set triangle color
-        context.drawPath(using: .fillStroke) // Draw triangle
-    }
-}
-
-public class BubbleSpot: UIView {
+    public var textColor: UIColor = .white
+    public var arrowColor: UIColor = .black
+    public var didBubbleTapped: (() -> Void)?
     
-    // MARK: - Private properties
-    
-    private let text: String
-    private let arrowPosition: ArrowPosition
-    private weak var targetView: UIView?
-    
-    // MARK: - Public properties
-    
-    // BubbleSpot label
     public var label: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -79,23 +38,12 @@ public class BubbleSpot: UIView {
         return label
     }()
     
-    // ArrowView
     private let arrowView: ArrowView = {
         let view = ArrowView()
         view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    public var textColor: UIColor = .white {
-        didSet {
-            label.textColor = textColor
-        }
-    }
-    
-    public var arrowColor: CGColor = UIColor.black.cgColor
-    
-    public var didBubbleTapped: (() -> Void)? = nil
     
     public init(targetView: UIView, text: String, arrowPosition: ArrowPosition) {
         self.text = text
