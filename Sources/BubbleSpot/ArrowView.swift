@@ -4,6 +4,7 @@
 *  MIT license, see LICENSE file for details
 */
 
+#if canImport(UIKit)
 import UIKit
 
 public enum ArrowDirection {
@@ -45,3 +46,4 @@ class ArrowView: UIView {
         context.drawPath(using: .fillStroke)
     }
 }
+#endif

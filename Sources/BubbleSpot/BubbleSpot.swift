@@ -1,10 +1,10 @@
-//
-//  BubbleSpot.swift
-//  BubbleSpot
-//
-//  Created by agustiyan on 26/03/24.
-//
+/**
+*  BubbleSpot
+*  Copyright (c) Agus Tiyan 2024
+*  MIT license, see LICENSE file for details
+*/
 
+#if canImport(UIKit)
 import UIKit
 
 public enum ArrowPosition {
@@ -219,3 +219,4 @@ public class BubbleSpot: UIView, BubbleSpotProtocol {
         }
     }
 }
+#endif

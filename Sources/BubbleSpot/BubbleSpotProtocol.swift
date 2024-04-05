@@ -4,6 +4,7 @@
 *  MIT license, see LICENSE file for details
 */
 
+#if canImport(UIKit)
 import UIKit
 
 protocol BubbleSpotProtocol {
@@ -17,4 +18,4 @@ protocol BubbleSpotProtocol {
     func show()
     func dismiss()
 }
-
+#endif
