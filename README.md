@@ -3,6 +3,7 @@
 [![Swift 5](https://img.shields.io/badge/Swift-v5-orange?logo=swift&style=flat-square)](https://www.swift.org/)
 [![iOS 12+](https://img.shields.io/badge/iOS-12+-silver?logo=apple&style=flat-square)](https://www.apple.com/iphone/)
 [![SPM](https://img.shields.io/badge/Swift_Package_Manager-Compatible-green?logo=swift&style=flat-square)](https://www.swift.org/documentation/package-manager/)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/agustiyann/BubbleSpot/swift.yml?logo=github&style=flat-square)](https://github.com/agustiyann/BubbleSpot/actions)
 [![GitHub](https://img.shields.io/badge/GitHub-agustiyann-%2300b894?logo=github&style=flat-square)](https://github.com/agustiyann)
 
 BubbleSpot is a lightweight library for creating tooltips in iOS development using UIKit. It allows developers to easily add informative tooltips to their app's user interface, enhancing user experience and providing helpful hints.
