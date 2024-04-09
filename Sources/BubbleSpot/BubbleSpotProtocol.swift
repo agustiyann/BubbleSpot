@@ -9,7 +9,7 @@ import UIKit
 
 protocol BubbleSpotProtocol {
     var text: String { get }
-    var arrowPosition: ArrowPosition { get }
+    var bubblePosition: BubblePosition { get }
     var targetView: UIView? { get }
     var textColor: UIColor { get set }
     var arrowColor: UIColor { get set }

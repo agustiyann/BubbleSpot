@@ -7,7 +7,7 @@
 #if canImport(UIKit)
 import UIKit
 
-public enum ArrowPosition {
+public enum BubblePosition {
     case top
     case bottom
     case left
@@ -20,9 +20,9 @@ public enum ArrowPosition {
 
 public class BubbleSpot: UIView, BubbleSpotProtocol {
     
-    internal var text: String
-    internal var arrowPosition: ArrowPosition
-    internal weak var targetView: UIView?
+    var text: String
+    var bubblePosition: BubblePosition
+    weak var targetView: UIView?
     
     public var textColor: UIColor = .white
     public var arrowColor: UIColor = .black
@@ -45,9 +45,9 @@ public class BubbleSpot: UIView, BubbleSpotProtocol {
         return view
     }()
     
-    public init(targetView: UIView, text: String, arrowPosition: ArrowPosition) {
+    public init(targetView: UIView, text: String, bubblePosition: BubblePosition) {
         self.text = text
-        self.arrowPosition = arrowPosition
+        self.bubblePosition = bubblePosition
         self.targetView = targetView
         
         super.init(frame: .zero)
@@ -109,7 +109,7 @@ public class BubbleSpot: UIView, BubbleSpotProtocol {
             return
         }
         
-        switch arrowPosition {
+        switch bubblePosition {
         case .top:
             arrowView.direction = .bottom
             

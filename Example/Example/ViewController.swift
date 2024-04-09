@@ -21,35 +21,35 @@ class ViewController: UIViewController {
     
     private lazy var bellowBubbleSpot = BubbleSpot(targetView: self.topButton,
                                                    text: "This is a bubble spot that is bellow the target view",
-                                                   arrowPosition: .bottom)
+                                                   bubblePosition: .bottom)
     
     private lazy var rightBubbleSpot = BubbleSpot(targetView: self.leftButton,
                                                   text: "This is the bubble spot to the right of the target view",
-                                                  arrowPosition: .right)
+                                                  bubblePosition: .right)
     
     private lazy var leftBubbleSpot = BubbleSpot(targetView: self.rightButton,
                                                  text: "This is the bubble spot to the left of the target view",
-                                                 arrowPosition: .left)
+                                                 bubblePosition: .left)
     
     private lazy var aboveBubbleSpot = BubbleSpot(targetView: self.bottomButton,
                                                   text: "This is a bubble spot that is above the target view",
-                                                  arrowPosition: .top)
+                                                  bubblePosition: .top)
     
     private lazy var bellowLeftBubbleSpot = BubbleSpot(targetView: self.topLeftButton,
                                                        text: "This is a bubble spot that is bellow [left] the target view",
-                                                       arrowPosition: .bottomLeft)
+                                                       bubblePosition: .bottomLeft)
     
     private lazy var bellowRightBubbleSpot = BubbleSpot(targetView: self.topRightButton,
                                                         text: "This is a bubble spot that is bellow [right] the target view",
-                                                        arrowPosition: .bottomRight)
+                                                        bubblePosition: .bottomRight)
     
     private lazy var aboveLeftBubbleSpot = BubbleSpot(targetView: self.bottomLeftButton,
                                                   text: "This is a bubble spot that is above [left] the target view",
-                                                  arrowPosition: .topLeft)
+                                                  bubblePosition: .topLeft)
     
     private lazy var aboveRightBubbleSpot = BubbleSpot(targetView: self.bottomRightButton,
                                                   text: "This is a bubble spot that is above [right] the target view",
-                                                  arrowPosition: .topRight)
+                                                  bubblePosition: .topRight)
     
     override func viewDidLoad() {
         super.viewDidLoad()
