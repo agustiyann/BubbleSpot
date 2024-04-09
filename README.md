@@ -36,10 +36,10 @@ To use BubbleSpot in your project, follow these simple steps:
 import BubbleSpot
 ```
 
-2. Create a BubbleSpot instance with the target view, tooltip text, and arrow position:
+2. Create a BubbleSpot instance with the target view, tooltip text, and bubble position:
 
 ```swift
-let bubble = BubbleSpot(targetView: targetView, text: "Your tooltip text here", arrowPosition: .top)
+let bubble = BubbleSpot(targetView: targetView, text: "Your tooltip text here", bubblePosition: .top)
 ```
 
 3. Customize the tooltip appearance (optional):
@@ -91,7 +91,7 @@ class ViewController: UIViewController {
 
     @objc func buttonTapped() {
         // Create and show a tooltip
-        let bubble = BubbleSpot(targetView: view, text: "This is a tooltip", arrowPosition: .top)
+        let bubble = BubbleSpot(targetView: view, text: "This is a tooltip", bubblePosition: .top)
         bubble.show()
     }
 }
